@@ -1,0 +1,50 @@
+#include <iostream>
+#include <stack>
+#include <string>
+
+using namespace std;
+
+// Function to check if the opening and closing characters are matching pairs
+bool isMatchingPair(char opening, char closing) {
+    return ((opening == '(' && closing == ')') ||
+            (opening == '{' && closing == '}') ||
+            (opening == '[' && closing == ']'));
+}
+
+// Function to check if the expression is well parenthesized
+bool isWellParenthesized(string expr) {
+    stack<char> s;
+
+    for (char c : expr) {
+        // If it's an opening delimiter, push it to the stack
+        if (c == '(' || c == '{' || c == '[') {
+            s.push(c);
+        }
+        // If it's a closing delimiter
+        else if (c == ')' || c == '}' || c == ']') {
+            // If stack is empty or top doesn't match with closing delimiter, return false
+            if (s.empty() || !isMatchingPair(s.top(), c)) {
+                return false;
+            }
+            s.pop(); // Pop the matched opening delimiter
+        }
+    }
+
+    // If stack is empty at the end, the expression is well parenthesized
+    return s.empty();
+}
+
+int main() {
+    string expression;
+
+    cout << "Enter an expression: ";
+    cin >> expression;
+
+    if (isWellParenthesized(expression)) {
+        cout << "The expression is well parenthesized." << endl;
+    } else {
+        cout << "The expression is NOT well parenthesized." << endl;
+    }
+
+    return 0;
+}
