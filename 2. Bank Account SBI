@@ -1,0 +1,49 @@
+Balance=5000
+def balanceEnquiry():
+	print("Your Account Balance is : ", Balance) 
+	fun()
+
+
+def deposit(): 
+	global Balance
+	amount= int(input("Enter the amount you want to deposit :"))
+	Balance = Balance + amount
+	print("Your account balance is:", Balance) 
+	fun()
+
+
+def Withdraw(): 
+	global Balance
+	amount= int(input("Enter the amount that you want to withdraw : ")) 
+	if amount > Balance:
+		print("Sorry! Your Account balance is not sufficient") 
+	else:
+		Balance = Balance - amount
+		print("Your account balance is:", Balance) 
+	fun()
+
+
+def fun():
+	n= int(input("Enter Your choice: ")) 
+	str(n).strip()
+	if n == 1 : 
+		balanceEnquiry()
+	elif n==2: 
+		deposit()
+	elif n==3:
+		Withdraw()
+	elif n==4: 
+		print("ThankYou!") 
+		exit()
+	else:
+		print("lnvalid input!")
+
+
+print (20*'*')
+print ("Welcome to SBI ATM!") 
+print(20*'*')
+print("1 . Check account Balance") 
+print("2 . Deposit Amount")
+print("3 . Withdraw") 
+print("4 . Exit")
+fun()
