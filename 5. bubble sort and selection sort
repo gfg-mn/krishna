@@ -1,0 +1,60 @@
+#the code for bubble sort
+percentage = []
+def info():
+    n=int(input("Enter the number of students (5 or more than 5) :"))
+    for i in range(0, n):
+    	ele = float(input(f"Enter the Percentage of student {i+1} : "))
+    	percentage.append(ele)
+    
+def ascending():
+    print("The marks of students :",percentage)
+    for n in range ((len(percentage))-1,0,-1):
+        for i in range (n):
+            if percentage[i]>percentage[i+1]:
+                percentage[i],percentage[i+1]=percentage[i+1],percentage[i]
+           
+    print("The marks of students in ascending manner: ")
+    print(percentage)
+    fun()
+   
+
+def descending():
+    for n in range ((len(percentage))-1,0,-1):
+        for i in range (n):
+            if percentage[i]<percentage[i+1]:
+                percentage[i],percentage[i+1]=percentage[i+1],percentage[i]
+           
+           
+    print("The marks of students in desending manner: ")
+    print(percentage)
+    fun()
+def topper():
+    for i in range (5):
+        print(f"Topper {i+1} :",percentage[i])
+    fun()    
+def fun():
+    
+    n=int(input(f"Enter your choice : "))
+    if n==1:
+        ascending()
+    elif n==2:
+        descending()
+    elif n==3:
+        topper()
+    elif n==4:
+        print("Thank you!!!")
+        exit()
+    else:
+        print("Invalid input !")
+    #fun()
+
+print("*"*50)
+print("Percentage of Students in First Year Engineering")
+print("*"*50)
+print("\n\nNOTE : The number of students should be 5 or more than 5.")	
+info()
+print("\n1 . Ascending order of Student's percentage ")
+print("\n2 . Descending order of Student's percentage ")
+print("\n3 . First 5 Toppers ")
+print("\n4 . Exit")
+fun()
