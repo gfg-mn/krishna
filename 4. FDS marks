@@ -1,0 +1,73 @@
+marks = []
+def stud():
+    students = int(input("Enter the numbers of students :"))
+    for i in range(students):
+        marks.append(float(input(f"Enter the marks of student {i + 1} :")))
+    fun()
+    return marks
+def average(marks):
+    total = 0
+    for i in range(0, len(marks)):
+        total=total + marks[i]
+        average = total / len(marks)
+    print("The average of marks of students is :", average)
+    fun()
+def highestLowest(marks):
+    highest = marks[0]
+    for i in marks:
+        if i > highest:
+            highest = i
+    print("The highest score in class is :", highest)
+    small = marks[0]
+    for i in marks:
+        if i < small:
+            small = i
+    print("The lowest score in class is :", small)
+    fun()
+def frequency(marks):
+    max = 0
+    r = marks[0]
+    for i in marks:
+        freq = marks.count(i)
+        if freq > max:
+            max = freq
+            r = i
+    print("The highest frequency of a marks is :",r)
+    fun()
+def absentStudents(marks):
+    s= 0
+    a=[]
+    if s in marks:
+        a.append(s)
+        total = 0
+        for i in range(0, len(a)):
+            print("The no. of students absent :",len(a))
+    else:
+        print("There is no one absent in the class.")
+    fun()
+def fun():
+    n=int(input("Enter your choice please : "))
+    if n==1:
+        average(marks)
+    elif n==2:
+        highestLowest(marks)
+    elif n==3:
+        absentStudents(marks)
+    elif n==4:
+        frequency(marks)
+    elif n==5:
+        stud()
+    elif n==6:
+        print("Thank You!!!!")
+        exit()
+print('-'*37)
+print("FUNDAMENTALS OF DATA STRUCTURE: Marks")
+print('-'*37)
+print("1. The average marks of class ")
+print("2. Highest score and lowest score of class")
+print("3. Count of students who were absent for the test")
+print("4. Mark with highest frequency")
+print("5. New entries")
+print("6. Exit")
+stud()    
+fun()
