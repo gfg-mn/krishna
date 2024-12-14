@@ -1,0 +1,160 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+
+    Node(int val) {
+        data = val;
+        next = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+
+    LinkedList() {
+        head = nullptr;
+    }
+
+    // Function to insert elements at the end of the list
+    void insert(int val) {
+        Node* newNode = new Node(val);
+        if (!head) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+    }
+
+    // Function to display the elements in the list
+    void display() {
+        Node* temp = head;
+        while (temp) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+
+    // Function to check if an element exists in the list
+    bool exists(int val) {
+        Node* temp = head;
+        while (temp) {
+            if (temp->data == val) return true;
+            temp = temp->next;
+        }
+        return false;
+    }
+
+    // Function to find the intersection of two sets
+    LinkedList intersection(LinkedList& other) {
+        LinkedList result;
+        Node* temp = head;
+        while (temp) {
+            if (other.exists(temp->data)) {
+                result.insert(temp->data);
+            }
+            temp = temp->next;
+        }
+        return result;
+    }
+
+    // Function to find the union of two sets
+    LinkedList unionSets(LinkedList& other) {
+        LinkedList result;
+        Node* temp = head;
+
+        // Insert all elements from the first set
+        while (temp) {
+            result.insert(temp->data);
+            temp = temp->next;
+        }
+
+        // Insert elements from the second set that are not in the first
+        temp = other.head;
+        while (temp) {
+            if (!exists(temp->data)) {
+                result.insert(temp->data);
+            }
+            temp = temp->next;
+        }
+
+        return result;
+    }
+
+    // Function to find the symmetric difference (A ∪ B) - (A ∩ B)
+    LinkedList symmetricDifference(LinkedList& other) {
+        LinkedList unionSet = unionSets(other);
+        LinkedList intersectionSet = intersection(other);
+        LinkedList result;
+
+        Node* temp = unionSet.head;
+        while (temp) {
+            if (!intersectionSet.exists(temp->data)) {
+                result.insert(temp->data);
+            }
+            temp = temp->next;
+        }
+
+        return result;
+    }
+
+    // Function to find the number of students who like neither vanilla nor butterscotch
+    int countNeither(int totalStudents, LinkedList& vanilla, LinkedList& butterscotch) {
+        LinkedList unionSet = vanilla.unionSets(butterscotch);
+        int count = 0;
+        Node* temp = unionSet.head;
+        while (temp) {
+            count++;
+            temp = temp->next;
+        }
+        return totalStudents - count; // Total students minus those who like either
+    }
+};
+
+int main() {
+    LinkedList vanillaLovers, butterscotchLovers;
+
+    // Inserting students who like vanilla
+    vanillaLovers.insert(1);
+    vanillaLovers.insert(2);
+    vanillaLovers.insert(3);
+    vanillaLovers.insert(4);
+
+    // Inserting students who like butterscotch
+    butterscotchLovers.insert(3);
+    butterscotchLovers.insert(4);
+    butterscotchLovers.insert(5);
+    butterscotchLovers.insert(6);
+
+    cout << "Set of students who like vanilla: ";
+    vanillaLovers.display();
+
+    cout << "Set of students who like butterscotch: ";
+    butterscotchLovers.display();
+
+    // a) Set of students who like both vanilla and butterscotch
+    LinkedList both = vanillaLovers.intersection(butterscotchLovers);
+    cout << "Set of students who like both vanilla and butterscotch: ";
+    both.display();
+
+    // b) Set of students who like either vanilla or butterscotch but not both
+    LinkedList eitherButNotBoth = vanillaLovers.symmetricDifference(butterscotchLovers);
+    cout << "Set of students who like either vanilla or butterscotch but not both: ";
+    eitherButNotBoth.display();
+
+    // c) Number of students who like neither vanilla nor butterscotch
+    int totalStudents = 8; // Assuming there are 8 students in total
+    int neitherCount = vanillaLovers.countNeither(totalStudents, vanillaLovers, butterscotchLovers);
+    cout << "Number of students who like neither vanilla nor butterscotch: " << neitherCount << endl;
+
+    return 0;
+}
