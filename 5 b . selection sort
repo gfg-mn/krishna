@@ -1,0 +1,63 @@
+#the code for selection sort
+percentage = []
+def info():
+	n=int(input("Enter the number of students :"))
+	for i in range(0, n):
+		ele = float(input(f"Enter the Percentage of student {i+1} : "))
+		percentage.append(ele)
+
+def ascending():
+	print("\n\The percenatge in ascending order :")
+	for i in range (len(percentage)-1):
+		minimum=i
+		for j in range(i+1 ,len(percentage)):
+			if percentage[minimum]>percentage[j]:
+				minimum=j
+		percentage[i],percentage[minimum]=percentage[minimum],percentage[i]
+	
+	for i in range(len(percentage)):
+		print(percentage [i],end=" ")
+	fun()	
+		
+def descending():
+	print("\nThe percenatge in descending order :")
+	for i in range(len(percentage)-1):
+		maximum=i
+		for j in range(i+1,len(percentage)):
+			if percentage[maximum]<percentage[j]:
+				maximum=j
+		percentage[i],percentage[maximum]=percentage[maximum],percentage[i]	
+	for i in range (len(percentage)):
+		print(percentage[i],end=" " )	
+	fun()	
+	
+def topper():
+	
+	for i in range(5):
+		print(f"Topper {i+1} : ",percentage[i])	
+	fun()	
+def fun():
+    
+    n=int(input(f"\nEnter your choice : "))
+    if n==1:
+        ascending()
+    elif n==2:
+        descending()
+    elif n==3:
+        topper()
+    elif n==4:
+        print("Thank you!!!")
+        exit()
+    else:
+        print("Invalid input !")
+        
+print("*"*50)
+print("Percentage of Students in First Year Engineering")
+print("*"*50)
+print("\n\nNOTE : The number of students should be 5 or more than 5.")	
+info()
+print("\n1 . Ascending order of Student's percentage ")
+print("\n2 . Descending order of Student's percentage ")
+print("\n3 . First 5 Toppers ")
+print("\n4 . Exit")
+fun()
