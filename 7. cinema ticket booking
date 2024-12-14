@@ -1,0 +1,144 @@
+#include <iostream>
+using namespace std;
+
+// Node representing a seat in a doubly circular linked list
+struct Seat {
+    int seatNumber;
+    bool isBooked;
+    Seat* next;
+    Seat* prev;
+    
+    Seat(int number) {
+        seatNumber = number;
+        isBooked = false;
+        next = prev = this; // Circular reference
+    }
+};
+
+// Function to insert a seat at the end of the doubly circular linked list
+void insertSeat(Seat*& head, int seatNumber) {
+    Seat* newSeat = new Seat(seatNumber);
+    
+    if (head == nullptr) {
+        head = newSeat;
+    } else {
+        Seat* tail = head->prev;
+        tail->next = newSeat;
+        newSeat->prev = tail;
+        newSeat->next = head;
+        head->prev = newSeat;
+    }
+}
+
+// Function to display available seats
+void displayAvailableSeats(Seat* head) {
+    if (!head) {
+        cout << "No seats available\n";
+        return;
+    }
+    Seat* temp = head;
+    do {
+        if (!temp->isBooked)
+            cout << "Seat " << temp->seatNumber << " is available\n";
+        temp = temp->next;
+    } while (temp != head);
+}
+
+// Function to book a seat
+void bookSeat(Seat* head, int seatNumber) {
+    Seat* temp = head;
+    do {
+        if (temp->seatNumber == seatNumber) {
+            if (!temp->isBooked) {
+                temp->isBooked = true;
+                cout << "Seat " << seatNumber << " has been booked\n";
+            } else {
+                cout << "Seat " << seatNumber << " is already booked\n";
+            }
+            return;
+        }
+        temp = temp->next;
+    } while (temp != head);
+    cout << "Seat not found\n";
+}
+
+// Function to cancel a booking
+void cancelBooking(Seat* head, int seatNumber) {
+    Seat* temp = head;
+    do {
+        if (temp->seatNumber == seatNumber) {
+            if (temp->isBooked) {
+                temp->isBooked = false;
+                cout << "Booking for Seat " << seatNumber << " has been canceled\n";
+            } else {
+                cout << "Seat " << seatNumber << " is not booked\n";
+            }
+            return;
+        }
+        temp = temp->next;
+    } while (temp != head);
+    cout << "Seat not found\n";
+}
+
+int main() {
+    const int ROWS = 10;
+    const int SEATS_PER_ROW = 7;
+    
+    // Array of head pointers for each row
+    Seat* rows[ROWS] = {nullptr};
+    
+    // Initialize the seating arrangement for each row
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 1; j <= SEATS_PER_ROW; j++) {
+            insertSeat(rows[i], j);
+        }
+    }
+    
+    // Example of random bookings to start with
+    bookSeat(rows[0], 2);
+    bookSeat(rows[0], 4);
+    bookSeat(rows[1], 3);
+    
+    int choice, row, seat;
+    while (true) {
+        cout << "\n1. Display available seats\n2. Book a seat\n3. Cancel booking\n4. Exit\nEnter your choice: ";
+        cin >> choice;
+        
+        switch (choice) {
+            case 1:
+                cout << "Enter row number (0-9): ";
+                cin >> row;
+                if (row >= 0 && row < ROWS)
+                    displayAvailableSeats(rows[row]);
+                else
+                    cout << "Invalid row number!\n";
+                break;
+            case 2:
+                cout << "Enter row number (0-9): ";
+                cin >> row;
+                cout << "Enter seat number (1-7): ";
+                cin >> seat;
+                if (row >= 0 && row < ROWS && seat >= 1 && seat <= SEATS_PER_ROW)
+                    bookSeat(rows[row], seat);
+                else
+                    cout << "Invalid row or seat number!\n";
+                break;
+            case 3:
+                cout << "Enter row number (0-9): ";
+                cin >> row;
+                cout << "Enter seat number (1-7): ";
+                cin >> seat;
+                if (row >= 0 && row < ROWS && seat >= 1 && seat <= SEATS_PER_ROW)
+                    cancelBooking(rows[row], seat);
+                else
+                    cout << "Invalid row or seat number!\n";
+                break;
+            case 4:
+                exit(0);
+            default:
+                cout << "Invalid choice!\n";
+        }
+    }
+    return 0;
+}
+
