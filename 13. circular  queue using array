@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class CircularQueue {
+private:
+    string* orders;  // Dynamic array to store orders
+    int front, rear, maxSize, currentSize;
+
+public:
+    // Constructor
+    CircularQueue(int m) : maxSize(m), front(0), rear(0), currentSize(0) {
+        orders = new string[maxSize];
+    }
+
+    // Destructor
+    ~CircularQueue() {
+        delete[] orders; // Clean up memory
+    }
+
+    // Check if the queue is full
+    bool isFull() {
+        return currentSize == maxSize;
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return currentSize == 0;
+    }
+
+    // Place an order in the queue
+    void placeOrder(const string& order) {
+        if (isFull()) {
+            cout << "Queue is full. Cannot place order." << endl;
+            return;
+        }
+        orders[rear] = order;
+        rear = (rear + 1) % maxSize;  // Circular increment
+        currentSize++;
+        cout << "Order placed: " << order << endl;
+    }
+
+    // Serve an order from the queue
+    void serveOrder() {
+        if (isEmpty()) {
+            cout << "No orders to serve." << endl;
+            return;
+        }
+        cout << "Serving order: " << orders[front] << endl;
+        front = (front + 1) % maxSize;  // Circular increment
+        currentSize--;
+    }
+
+    // Display all orders in the queue
+    void displayOrders() {
+        if (isEmpty()) {
+            cout << "No current orders." << endl;
+            return;
+        }
+        cout << "Current orders: ";
+        for (int i = 0; i < currentSize; i++) {
+            cout << orders[(front + i) % maxSize] << "; ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    CircularQueue pizzaQueue(5); // Maximum 5 orders
+    int choice;
+    string order;
+
+    do {
+        cout << "\n1. Place Order\n2. Serve Order\n3. Display Orders\n4. Exit\nChoose an option: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter your order: ";
+            cin >> ws; // Ignore leading whitespace
+            getline(cin, order);
+            pizzaQueue.placeOrder(order);
+            break;
+
+        case 2:
+            pizzaQueue.serveOrder();
+            break;
+
+        case 3:
+            pizzaQueue.displayOrders();
+            break;
+
+        case 4:
+            cout << "Exiting..." << endl;
+            break;
+
+        default:
+            cout << "Invalid choice." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
