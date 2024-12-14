@@ -1,0 +1,46 @@
+# Radix Sort
+def countingSort(A, exp):
+    n = len(A)
+    output = [0] * n  # Output array
+    count = [0] * 10  # Count array for digits (0 to 9)
+
+    # Count occurrences of each digit in the current place value
+    for i in range(n):
+        index = (A[i] // exp) % 10
+        count[index] += 1
+
+    # Update count[i] to store position of digits in output[]
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    # Build the output array
+    for i in range(n - 1, -1, -1):
+        index = (A[i] // exp) % 10
+        output[count[index] - 1] = A[i]
+        count[index] -= 1
+
+    # Copy the sorted elements back to the original array
+    for i in range(n):
+        A[i] = output[i]
+
+
+def radixSort(A):
+    # Find the maximum number to determine the number of digits
+    max_val = max(A)
+    exp = 1  # Start with the least significant digit
+
+    # Iterate through all digit positions
+    while max_val // exp > 0:
+        countingSort(A, exp)
+        exp *= 10
+
+
+# Input array
+A = [56, 45, 68, 47, 478, 199, 74, 22, 611, 63]
+
+print("Original array:", A)
+
+# Perform Radix Sort
+radixSort(A)
+
+print("Sorted array:", A)
