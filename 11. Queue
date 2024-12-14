@@ -1,0 +1,123 @@
+#include <iostream>
+using namespace std;
+
+// Define a structure for a Job (Node of the linked list)
+class Job {
+public:
+    int jobId;
+    Job* next;
+
+    Job(int id) {
+        jobId = id;
+        next = nullptr;
+    }
+};
+
+// Define a class for the Job Queue
+class JobQueue {
+private:
+    Job* front; // Points to the front of the queue
+    Job* rear;  // Points to the rear of the queue
+
+public:
+    // Constructor to initialize the queue
+    JobQueue() {
+        front = rear = nullptr;
+    }
+
+    // Function to add a job to the queue (enqueue)
+    void addJob(int jobId) {
+        Job* newJob = new Job(jobId);
+
+        // If the queue is empty, both front and rear will point to the new job
+        if (rear == nullptr) {
+            front = rear = newJob;
+            cout << "Job " << jobId << " added to the queue." << endl;
+            return;
+        }
+
+        // Otherwise, add the job to the end of the queue and update rear
+        rear->next = newJob;
+        rear = newJob;
+
+        cout << "Job " << jobId << " added to the queue." << endl;
+    }
+
+    // Function to remove a job from the queue (dequeue)
+    void deleteJob() {
+        // If the queue is empty, there's nothing to delete
+        if (front == nullptr) {
+            cout << "No jobs in the queue to delete." << endl;
+            return;
+        }
+
+        // Get the front job and move the front pointer to the next job
+        Job* temp = front;
+        front = front->next;
+
+        // If the front becomes nullptr, set rear to nullptr as well (queue is empty)
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+
+        cout << "Job " << temp->jobId << " processed and removed from the queue." << endl;
+        delete temp; // Free memory of the removed job
+    }
+
+    // Function to display the jobs in the queue
+    void displayJobs() {
+        if (front == nullptr) {
+            cout << "No jobs in the queue." << endl;
+            return;
+        }
+
+        Job* temp = front;
+        cout << "Jobs in the queue: ";
+        while (temp != nullptr) {
+            cout << temp->jobId << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    JobQueue jobQueue;
+
+    int choice, jobId;
+
+    do {
+        cout << "\n****** Job Queue Menu ******" << endl;
+        cout << "1. Add Job" << endl;
+        cout << "2. Delete Job" << endl;
+        cout << "3. Display Jobs" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter job ID to add: ";
+            cin >> jobId;
+            jobQueue.addJob(jobId);
+            break;
+
+        case 2:
+            jobQueue.deleteJob();
+            break;
+
+        case 3:
+            jobQueue.displayJobs();
+            break;
+
+        case 4:
+            cout << "Exiting..." << endl;
+            break;
+
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
