@@ -1,0 +1,65 @@
+Group_A=[]
+n = int(input("Enter number of players in cricket: "))
+
+for i in range(n):
+	element = input(f"Enter player no. {i+1}: ".format(i+1)) 
+	Group_A.append(element)
+print(Group_A) 
+Group_B=[]
+num =int(input("Enter number of players in Badminton: ")) 
+for i in range(num):
+	element1 = input(f"Enter player no. {i+1}: ".format(i+1)) 
+	Group_B.append(element1)
+
+print(Group_B)
+
+
+
+Group_C=[]
+no = int(input("Enter number of players in football: "))
+
+for i in range(no):
+	element2 = input(f"Enter player no. {i+1}: ".format(i+1)) 
+	Group_C.append(element2)
+print(Group_C)
+a=[]
+b=[]
+c=[]
+d=[]
+def cricketAndBadminton(Group_A,Group_B):
+    for i in Group_A :
+        if i in Group_B:
+	        a.append(i)
+
+
+cricketAndBadminton(Group_A,Group_B)
+print("list of students who play both cricket and badminton :")
+print (a)
+def cricketOrBadminton(Group_A,Group_B):
+	for i in Group_A:
+		if i not in Group_B:
+			b.append(i) 
+	for i in Group_B:
+		if i not in Group_A:
+		      b.append(i) 
+cricketOrBadminton(Group_A,Group_B)
+print("list of students who play either cricket or badminton are:") 
+print (b)
+def neitherCricketNorBadminton(Group_A,Group_B,Group_C): 
+	for i in Group_C:
+		if i not in Group_A and i not in Group_B:
+			c.append(i) 
+neitherCricketNorBadminton(Group_A,Group_B,Group_C)
+print("number of student who neither play cricket nor badminton are:") 
+print (len(c))
+
+def cricketAndFootball(Group_A,Group_B,Group_C):
+	for i in Group_A:
+		if i in Group_A:
+		    d.append(i) 
+	for i in Group_C:
+		if i in Group_B:
+		      d.append(i) 
+cricketAndFootball(Group_A,Group_B,Group_C)
+print("number of student who play cricket and football but not badminton are: ") 
+print(len(d))
